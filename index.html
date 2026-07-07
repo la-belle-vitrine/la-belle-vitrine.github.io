@@ -43,6 +43,7 @@
   .top-inner{max-width:640px;margin:0 auto;padding:15px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px}
   .brand{font-weight:650;font-size:15px;letter-spacing:-.012em}
   .brand span{color:var(--ink-3);font-weight:400}
+  .brand .logo-type{font-family:Georgia,'Iowan Old Style','Times New Roman',serif;font-style:italic;font-weight:600;font-size:17px;letter-spacing:.005em}
   .progress{flex:1;max-width:200px;height:3px;background:#e3e3e8;border-radius:99px;overflow:hidden}
   .progress i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1)}
   .steplabel{font-size:12.5px;color:var(--ink-3);font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:500}
@@ -235,11 +236,11 @@
   #welcome.w-played .wd,#welcome.w-played .w-in{animation:none}
   .w-proof{margin:36px 0 34px}
   .w-proof-label{font-size:11.5px;font-weight:650;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:14px}
-  .marquee{overflow:hidden;margin:0 -22px;padding:6px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+  .marquee{overflow:hidden;margin:0 -22px;padding:16px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
   .marquee-track{display:flex;width:max-content;animation:mslide 38s linear infinite;will-change:transform}
   .marquee.paused .marquee-track{animation-play-state:paused}
   @keyframes mslide{to{transform:translateX(-50%)}}
-  .mock{width:196px;flex:none;margin-right:14px;border-radius:14px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden}
+  .mock{width:196px;flex:none;margin-right:14px;border-radius:14px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden;display:block;position:relative;text-decoration:none;color:inherit;transition:transform var(--dur-m) var(--ease),box-shadow var(--dur-m) var(--ease)}
   .m-bar{height:20px;background:var(--fill);display:flex;align-items:center;gap:4px;padding:0 9px;border-bottom:1px solid var(--line)}
   .m-bar i{width:5px;height:5px;border-radius:50%;background:#d3d3d9}
   .m-hero{height:74px;color:#fff;display:flex;flex-direction:column;justify-content:center;padding:0 14px}
@@ -247,6 +248,20 @@
   .m-hero span{font-size:10px;opacity:.82;text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
   .m-body{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:10px}
   .m-body i{height:26px;border-radius:6px;display:block}
+  /* Aperçu réel du site (iframe live ou capture) — toujours cadré à l'identique */
+  .m-frame{position:relative;width:100%;height:126px;overflow:hidden;background:#fff}
+  .m-frame iframe{position:absolute;top:0;left:0;width:1200px;height:780px;border:0;transform:scale(.16167);transform-origin:top left;pointer-events:none}
+  .m-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+  .m-cap{padding:9px 12px;border-top:1px solid var(--line)}
+  .m-cap b{display:block;font-size:12.5px;letter-spacing:-.01em}
+  .m-cap span{display:block;font-size:10px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.07em;margin-top:2px}
+  @media (hover:hover) and (pointer:fine){
+    /* Le défilement ne s'arrête jamais. Au survol : la carte visée grossit,
+       les autres rétrécissent légèrement. Chaque carte a sa propre
+       transition → le passage d'un site à l'autre reste fluide. */
+    .marquee-track:hover .mock{transform:scale(.93)}
+    .marquee-track .mock:hover{transform:scale(1.08);box-shadow:var(--shadow-lift);z-index:2}
+  }
   .w-go{margin-top:6px}
   .w-cta{position:relative;overflow:hidden;border:none;border-radius:99px;min-height:56px;padding:16px 34px;font-size:17.5px;font-weight:650;letter-spacing:-.01em;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 8px 22px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.22);transition:transform var(--dur-m) var(--ease-pop),box-shadow var(--dur-m) var(--ease);display:inline-flex;align-items:center;gap:10px}
   .w-cta .arr{display:inline-block;transition:transform var(--dur-m) var(--ease-pop)}
@@ -348,16 +363,9 @@
       <div class="w-eyebrow w-in" style="--d:.05s">Identité visuelle · Site web · Artisans &amp; PME</div>
       <h1 class="w-title">Donnez à votre savoir-faire l'image qu'il mérite.</h1>
       <p class="w-sub w-in" style="--d:.55s">Répondez à quelques questions toutes simples — et regardez votre univers visuel prendre forme sous vos yeux, pendant que vous répondez.</p>
-      <div class="w-proof w-in" style="--d:.72s">
+      <div class="w-proof w-in" style="--d:.72s" id="wProof">
         <div class="w-proof-label">Quelques univers créés récemment</div>
-        <div class="marquee" aria-hidden="true"><div class="marquee-track">
-          <div class="mock"><div class="m-bar"><i></i><i></i><i></i></div><div class="m-hero" style="background:linear-gradient(135deg,#3e2f23,#8a5a2b)"><b>Menuiserie Klein</b><span>Bois &amp; sur-mesure</span></div><div class="m-body"><i style="background:#f6f1e7"></i><i style="background:#efe6d4"></i><i style="background:#f6f1e7"></i></div></div>
-          <div class="mock"><div class="m-bar"><i></i><i></i><i></i></div><div class="m-hero" style="background:linear-gradient(135deg,#0b0f1a,#101828 60%,#3b82f6)"><b>Élec'Pro 57</b><span>Électricité générale</span></div><div class="m-body"><i style="background:#f4f6fb"></i><i style="background:#e8edf8"></i><i style="background:#f4f6fb"></i></div></div>
-          <div class="mock"><div class="m-bar"><i></i><i></i><i></i></div><div class="m-hero" style="background:linear-gradient(135deg,#3a2b30,#b76e79)"><b>Institut Léa</b><span>Beauté &amp; bien-être</span></div><div class="m-body"><i style="background:#fbf5f6"></i><i style="background:#f3e4e7"></i><i style="background:#fbf5f6"></i></div></div>
-          <div class="mock"><div class="m-bar"><i></i><i></i><i></i></div><div class="m-hero" style="background:linear-gradient(135deg,#3e2f23,#8a5a2b)"><b>Menuiserie Klein</b><span>Bois &amp; sur-mesure</span></div><div class="m-body"><i style="background:#f6f1e7"></i><i style="background:#efe6d4"></i><i style="background:#f6f1e7"></i></div></div>
-          <div class="mock"><div class="m-bar"><i></i><i></i><i></i></div><div class="m-hero" style="background:linear-gradient(135deg,#0b0f1a,#101828 60%,#3b82f6)"><b>Élec'Pro 57</b><span>Électricité générale</span></div><div class="m-body"><i style="background:#f4f6fb"></i><i style="background:#e8edf8"></i><i style="background:#f4f6fb"></i></div></div>
-          <div class="mock"><div class="m-bar"><i></i><i></i><i></i></div><div class="m-hero" style="background:linear-gradient(135deg,#3a2b30,#b76e79)"><b>Institut Léa</b><span>Beauté &amp; bien-être</span></div><div class="m-body"><i style="background:#fbf5f6"></i><i style="background:#f3e4e7"></i><i style="background:#fbf5f6"></i></div></div>
-        </div></div>
+        <div class="marquee"><div class="marquee-track" id="marqueeTrack"></div></div>
       </div>
       <div class="w-go w-in" style="--d:.88s">
         <button class="w-cta" id="startBtn">C'est parti <span class="arr">→</span></button>
@@ -368,7 +376,7 @@
 
   <header class="top">
     <div class="top-inner">
-      <div class="brand" id="brandName">Votre projet <span>· identité &amp; site web</span></div>
+      <div class="brand" id="brandName"><b class="logo-type">La Belle Vitrine</b> <span>· votre plus belle image</span></div>
       <div class="progress" aria-hidden="true"><i id="progBar"></i></div>
       <div class="steplabel" id="stepLabel"></div>
     </div>
@@ -406,6 +414,34 @@ const CONFIG = {
   scriptUrl: "https://script.google.com/macros/s/AKfycbwowCi4dVmp211g6ScFYOoMHYTCA4Inhy3AVtOvQPZnFHM6j6DIBVF6HrcxnNTFTcuH/exec"                  // URL de l'application web Google Apps Script (voir google-apps-script.gs, étape 4 du mode d'emploi).
                                  // Tant qu'elle est vide, le formulaire retombe sur l'envoi WhatsApp / lien copié.
 };
+
+/* =====================================================================
+   VOS CRÉATIONS — le carrousel de l'écran d'accueil
+   ---------------------------------------------------------------------
+   Chaque objet = une carte cliquable du carrousel « Quelques univers
+   créés récemment ». Ajoutez, retirez ou modifiez librement les entrées.
+
+   Champs :
+   • nom      : le nom affiché sous l'aperçu (obligatoire)
+   • tag      : la petite ligne de description (ex. le métier)
+   • url      : l'adresse du vrai site — c'est là que le clic redirige
+   • apercu   : comment montrer le site. 3 modes possibles :
+        "live"  → affiche une vraie miniature du site en direct (iframe)
+                  Ne marche que si le site autorise l'intégration.
+                  Si le site reste blanc, passez plutôt en "image".
+        "image" → affiche une capture d'écran (renseignez « image » ci-dessous)
+        ""      → vignette colorée de secours (dégradé « couleurs »)
+   • image    : URL d'une capture d'écran (utilisé seulement si apercu:"image")
+   • couleurs : dégradé de la vignette de secours [couleur1, couleur2]
+
+   Astuce : pour rester clean, l'aperçu est toujours cadré dans la même
+   petite fenêtre de navigateur — vous ne pouvez pas « casser » la mise en page.
+===================================================================== */
+const CREATIONS = [
+  { nom:"CP Prestation's",  tag:"Bâtiment & travaux publics", url:"https://cp-prestations.fr", apercu:"live", image:"", couleurs:["#0E47A2","#1d1d1f"] },
+  { nom:"Élec'Pro 57",      tag:"Électricité générale",  url:"https://exemple.fr/elecpro57",        apercu:"", image:"", couleurs:["#0b0f1a","#3b82f6"] },
+  { nom:"Institut Léa",     tag:"Beauté & bien-être",    url:"https://exemple.fr/institut-lea",     apercu:"", image:"", couleurs:["#3a2b30","#b76e79"] }
+];
 
 /* =====================================================================
    DONNÉES — métiers, palettes, options
@@ -525,7 +561,7 @@ function bindInputs(root){
   root.querySelectorAll("[data-bind]").forEach(el=>{
     const k = el.dataset.bind;
     el.value = S[k] ?? "";
-    el.addEventListener("input", ()=>{ S[k]=el.value; save(); if(k==="nom") $("#brandName").innerHTML = esc(S.nom||"Votre projet")+" <span>· identité &amp; site web</span>"; });
+    el.addEventListener("input", ()=>{ S[k]=el.value; save(); });
   });
 }
 /* =====================================================================
@@ -1032,6 +1068,38 @@ function compoFont(){
 /* =====================================================================
    ÉCRAN D'ACCUEIL
 ===================================================================== */
+/* Une carte du carrousel. `clone` = copie décorative (2ᵉ passe pour la
+   boucle fluide) : masquée aux lecteurs d'écran et non focusable. */
+function creationCard(c, clone){
+  const nom = esc(c.nom||""), tag = esc(c.tag||"");
+  const linkable = !!c.url;
+  const tag_ = linkable ? "a" : "div";
+  const href = linkable ? ` href="${esc(c.url)}" target="_blank" rel="noopener"` : "";
+  const a11y = clone ? ' aria-hidden="true" tabindex="-1"' : (linkable ? ` aria-label="Voir le site ${nom}"` : "");
+  const bar = `<div class="m-bar"><i></i><i></i><i></i></div>`;
+  let inner;
+  if(c.apercu==="live" && c.url){
+    inner = `<div class="m-frame"><iframe src="${esc(c.url)}" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title=""></iframe></div>`
+          + `<div class="m-cap"><b>${nom}</b><span>${tag}</span></div>`;
+  } else if(c.apercu==="image" && c.image){
+    inner = `<div class="m-frame"><img src="${esc(c.image)}" alt="" loading="lazy"></div>`
+          + `<div class="m-cap"><b>${nom}</b><span>${tag}</span></div>`;
+  } else {
+    const g = (c.couleurs && c.couleurs.length>=2) ? c.couleurs : ["#1d1d1f","#0066d6"];
+    inner = `<div class="m-hero" style="background:linear-gradient(135deg,${esc(g[0])},${esc(g[1])})"><b>${nom}</b><span>${tag}</span></div>`
+          + `<div class="m-body"><i style="background:${esc(g[1])}1f"></i><i style="background:${esc(g[0])}14"></i><i style="background:${esc(g[1])}1f"></i></div>`;
+  }
+  return `<${tag_} class="mock"${href}${a11y}>${bar}${inner}</${tag_}>`;
+}
+function buildMarquee(){
+  const track = $("#marqueeTrack"), proof = $("#wProof");
+  if(!track) return;
+  if(!CREATIONS.length){ if(proof) proof.style.display="none"; return; }
+  // Deux passes identiques : la boucle CSS translate(-50%) reste fluide.
+  const set = CREATIONS.map(c=>creationCard(c,false)).join("");
+  const clones = CREATIONS.map(c=>creationCard(c,true)).join("");
+  track.innerHTML = set + clones;
+}
 let welcomeInit = false, leaving = false;
 function showWelcome(){
   leaving = false;
@@ -1040,6 +1108,7 @@ function showWelcome(){
   w.classList.remove("leave");
   if(welcomeInit) return;
   welcomeInit = true;
+  buildMarquee();
   // Révélation du titre mot par mot — une seule fois au chargement
   const t = w.querySelector(".w-title");
   t.innerHTML = t.textContent.trim().split(/\s+/)
@@ -1543,7 +1612,6 @@ function renderAtelierGate(){
 ===================================================================== */
 (function boot(){
   interactionsInit();
-  if(CONFIG.ownerName) $("#brandName").innerHTML = esc(CONFIG.ownerName)+" <span>· identité &amp; site web</span>";
   const h = location.hash;
   const q = new URLSearchParams(location.search);
   const m = h.match(/#r=([A-Za-z0-9\-_]+)/);
@@ -1554,7 +1622,6 @@ function renderAtelierGate(){
   if(q.has("atelier") || h==="#atelier"){ renderAtelierGate(); return; }
   // accès discret : 5 clics sur le point du footer
   let taps=0; $("#atelierLink").addEventListener("click", ()=>{ if(++taps>=5) renderAtelierGate(); });
-  if(S.nom) $("#brandName").innerHTML = esc(S.nom)+" <span>· identité &amp; site web</span>";
   // Brouillon restauré → on ré-applique l'univers déjà choisi
   applyTheme(); applyMotion(); applyMotif();
   showWelcome();
